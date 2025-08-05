@@ -26,7 +26,7 @@ export function QuickActionTabs({ onAction }: QuickActionTabsProps) {
             variant="outline"
             size="sm"
             onClick={() => onAction(tab.id)}
-            className="bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-slate-600/50 hover:text-white"
+            className="bg-slate-900/50 border-slate-800 text-slate-300 hover:bg-primary/10 hover:border-primary/30 hover:text-primary-foreground transition-all duration-200"
           >
             <Icon className="w-4 h-4 mr-2" />
             {tab.label}

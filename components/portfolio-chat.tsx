@@ -7,12 +7,17 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Send } from "lucide-react"
 import { ChatMessage } from "@/components/chat-message"
 import { QuickActionTabs } from "@/components/quick-action-tabs"
+import { SkillsSection } from "@/components/skills-section"
+import { ProjectsSection } from "@/components/projects-section"
+import { PastExperienceSection } from "@/components/past-experience-section"
 
 interface Message {
   id: string
   content: string
   isUser: boolean
   timestamp: Date
+  type?: 'text' | 'skills' | 'projects' | 'past_projects'
+  data?: any
 }
 
 export function PortfolioChat() {
@@ -21,12 +26,24 @@ export function PortfolioChat() {
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  const scrollToNewMessage = () => {
+    // Small delay to ensure the new message is rendered
+    setTimeout(() => {
+      if (messages.length > 0) {
+        // Scroll to show the last message with some padding above it
+        const lastMessageElement = document.querySelector(`[data-message-id="${messages[messages.length - 1].id}"]`)
+        if (lastMessageElement) {
+          lastMessageElement.scrollIntoView({ 
+            behavior: "smooth",
+            block: "start" // Show the top of the message
+          })
+        }
+      }
+    }, 100)
   }
 
   useEffect(() => {
-    scrollToBottom()
+    scrollToNewMessage()
   }, [messages])
 
   const handleSendMessage = async (message: string) => {
@@ -63,6 +80,8 @@ export function PortfolioChat() {
         content: data.response,
         isUser: false,
         timestamp: new Date(),
+        type: data.intent === 'skills' ? 'skills' : data.intent === 'projects' ? 'projects' : data.intent === 'past_projects' ? 'past_projects' : 'text',
+        data: data.intent === 'skills' ? data.skills_data : data.intent === 'projects' ? data.projects_data : data.intent === 'past_projects' ? data.past_projects_data : undefined,
       }
 
       setMessages((prev) => [...prev, botMessage])
@@ -97,7 +116,7 @@ export function PortfolioChat() {
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-white mb-2">Hey, I'm Jeremy 👋</h1>
-        <h2 className="text-6xl font-bold text-white mb-8">Software Engineer</h2>
+        <h2 className="text-6xl font-bold text-white mb-8">AI Portfolio</h2>
 
         <Avatar className="w-32 h-32 mx-auto mb-8">
           <AvatarFallback className="bg-gradient-to-br from-emerald-400 to-blue-500 text-white text-4xl">
@@ -107,18 +126,35 @@ export function PortfolioChat() {
       </div>
 
       {/* Chat Interface */}
-      <div className="bg-slate-800/30 rounded-lg backdrop-blur-sm">
-        <div className="p-4">
+      <div className="bg-card/50 border border-border rounded-xl backdrop-blur-sm">
+        <div className="p-6">
           {/* Messages */}
-          <div className="space-y-4 mb-4 min-h-[200px] max-h-[400px] overflow-y-auto">
+          <div className="space-y-1 mb-6 min-h-[100px] max-h-[400px] overflow-y-auto px-2">
             {messages.length === 0 && (
-              <div className="text-center text-slate-400 py-8">
+              <div className="text-center text-slate-400 py-12">
                 <p className="text-sm">Try asking about my projects, skills, or experience!</p>
               </div>
             )}
 
             {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} />
+              <div key={message.id} data-message-id={message.id}>
+                <ChatMessage message={message} />
+                {message.type === 'skills' && !message.isUser && (
+                  <div className="mt-6 mb-8 px-2">
+                    <SkillsSection skills={message.data} />
+                  </div>
+                )}
+                {message.type === 'projects' && !message.isUser && (
+                  <div className="mt-6 mb-8 px-2">
+                    <ProjectsSection projects={message.data} />
+                  </div>
+                )}
+                {message.type === 'past_projects' && !message.isUser && (
+                  <div className="mt-6 mb-8 px-2">
+                    <PastExperienceSection projects={message.data} />
+                  </div>
+                )}
+              </div>
             ))}
 
             {isLoading && (
@@ -138,23 +174,23 @@ export function PortfolioChat() {
               </div>
             )}
 
-            <div ref={messagesEndRef} />
+            <div ref={messagesEndRef} className="h-4" />
           </div>
 
           {/* Input */}
-          <div className="flex space-x-2 mb-3">
+          <div className="flex space-x-3 mb-4">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask me anything..."
-              className="flex-1 bg-slate-700/50 border-slate-600 text-white placeholder-slate-400"
+              className="flex-1 bg-input border-border text-foreground placeholder-muted-foreground rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               onKeyPress={(e) => e.key === "Enter" && handleSendMessage(input)}
               disabled={isLoading}
             />
             <Button
               onClick={() => handleSendMessage(input)}
               disabled={isLoading || !input.trim()}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 py-3"
             >
               <Send className="w-4 h-4" />
             </Button>

@@ -14,21 +14,23 @@ interface ChatMessageProps {
 
 export function ChatMessage({ message }: ChatMessageProps) {
   return (
-    <div className={`flex ${message.isUser ? "justify-end" : "justify-start"} mb-4`}>
-      <div className={`flex ${message.isUser ? "flex-row-reverse" : "flex-row"} items-start space-x-3 max-w-[80%]`}>
-        <Avatar className="w-8 h-8 flex-shrink-0">
-          <AvatarFallback className={message.isUser ? "bg-blue-500 text-white" : "bg-emerald-500 text-white"}>
+    <div className={`flex ${message.isUser ? "justify-end" : "justify-start"} mb-8`}>
+      <div className={`flex ${message.isUser ? "flex-row-reverse" : "flex-row"} items-end max-w-[85%] ${message.isUser ? "mr-4" : ""}`}>
+        <Avatar className={`w-8 h-8 flex-shrink-0 mb-1 ${message.isUser ? "ml-3" : "mr-3"}`}>
+          <AvatarFallback className={message.isUser ? "bg-accent text-white" : "bg-primary text-white"}>
             {message.isUser ? "👤" : "🤖"}
           </AvatarFallback>
         </Avatar>
 
         <Card
-          className={`p-3 ${
-            message.isUser ? "bg-blue-500/20 border-blue-500/30 ml-3" : "bg-slate-700/50 border-slate-600 mr-3"
+          className={`p-4 border-0 shadow-sm ${
+            message.isUser 
+              ? "bg-accent/20 rounded-2xl rounded-br-md" 
+              : "bg-card rounded-2xl rounded-bl-md"
           }`}
         >
           <p className="text-white text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
-          <p className="text-xs text-slate-400 mt-2">{message.timestamp.toLocaleTimeString()}</p>
+          <p className="text-xs text-slate-400 mt-3 opacity-70">{message.timestamp.toLocaleTimeString()}</p>
         </Card>
       </div>
     </div>

@@ -21,11 +21,21 @@ class ResponseEngine:
         # Generate response based on intent
         response = await self._get_response_for_intent(intent, normalized_input)
         
-        return {
+        result = {
             "response": response,
             "intent": intent,
             "confidence": self.keyword_matcher.get_confidence_score(normalized_input, intent)
         }
+        
+        # Add structured data for specific intents
+        if intent == "skills":
+            result["skills_data"] = self.portfolio_data.get_skills()
+        elif intent == "projects":
+            result["projects_data"] = self.portfolio_data.get_projects()
+        elif intent == "past_projects":
+            result["past_projects_data"] = self.portfolio_data.get_projects()  # Will use default data from component
+            
+        return result
     
     async def _get_response_for_intent(self, intent: str, input_text: str) -> str:
         """Get response for specific intent - optimized for speed"""
@@ -39,6 +49,19 @@ class ResponseEngine:
             "fun": self.response_templates.get_fun_response,
             "architecture": self.response_templates.get_architecture_response,
             "greeting": self.response_templates.get_greeting_response,
+            "test": lambda: self.response_templates.get_test_response(input_text),
+            "ai_question": self.response_templates.get_ai_question_response,
+            "fishing": self.response_templates.get_fishing_response,
+            "soccer": self.response_templates.get_soccer_response,
+            "gaming": self.response_templates.get_gaming_response,
+            "outdoors": self.response_templates.get_outdoors_response,
+            "family": self.response_templates.get_family_response,
+            "location": self.response_templates.get_location_response,
+            "name": self.response_templates.get_name_response,
+            "music": self.response_templates.get_music_response,
+            "personal_state": lambda: self.response_templates.get_personal_state_response(input_text),
+            "past_projects": self.response_templates.get_past_projects_response,
+            "project_details": lambda: self.response_templates.get_project_details_response(input_text),
         }
         
         if intent in response_map:

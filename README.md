@@ -1,30 +1,29 @@
-# Next js portfolio starter
+# Jeremy Gatt - Interactive Portfolio
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+Interactive portfolio with chat interface built with Next.js and FastAPI.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/jeremygatt-4892s-projects/v0-next-js-portfolio-starter)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/8ICJv7hcIfT)
+## Quick Start
 
-## Overview
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd jg-portfolio
+   ```
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+2. **Run with Docker:**
+   ```bash
+   docker-compose up
+   ```
 
-## Deployment
+3. **Open your browser:**
+   ```
+   http://localhost:3000
+   ```
 
-Your project is live at:
+That's it! The application will be running with both frontend and backend services.
 
-**[https://vercel.com/jeremygatt-4892s-projects/v0-next-js-portfolio-starter](https://vercel.com/jeremygatt-4892s-projects/v0-next-js-portfolio-starter)**
+## Contact
 
-## Build your app
-
-Continue building your app on:
-
-**[https://v0.dev/chat/projects/8ICJv7hcIfT](https://v0.dev/chat/projects/8ICJv7hcIfT)**
-
-## How It Works
-
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+- **Email:** jpgatt06@yahoo.com
+- **Cell:** 313-324-2964
+- **GitHub:** github.com/jeremydev

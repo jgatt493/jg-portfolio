@@ -39,11 +39,23 @@ class PortfolioData:
 
     def get_skills(self) -> Dict[str, List[str]]:
         return {
-            "languages": ["Python", "JavaScript/TypeScript", "Go", "SQL", "Bash"],
-            "frameworks": ["FastAPI", "Django", "React", "Next.js", "Node.js"],
-            "databases": ["PostgreSQL", "MongoDB", "Redis", "Elasticsearch"],
-            "cloud": ["AWS", "Docker", "Kubernetes", "Terraform"],
-            "tools": ["Git", "GitHub Actions", "Prometheus", "Grafana", "Nginx"]
+            "frontend": [
+                "HTML", "CSS", "JavaScript/TypeScript", "Tailwind CSS", "Bootstrap", 
+                "Next.js", "React", "Angular", "Vercel AI SDK", "Gsap"
+            ],
+            "backend": [
+                "Java", "Python", "C#", "C++", "Spring Boot", "Python FastAPI", 
+                "Node.js", "COBOL", "Git", "GitHub"
+            ],
+            "databases": [
+                "PostgreSQL", "SQL", "DB2", "BigQuery", "Hadoop", "MongoDB"
+            ],
+            "cloud": [
+                "GCP", "AWS", "Azure", "Docker", "Kubernetes", "Cloud Functions"
+            ],
+            "devops": [
+                "Jenkins", "Tekton", "Cloud Build", "CI/CD", "DevOps", "Infrastructure"
+            ]
         }
 
     def get_experience(self) -> List[Dict[str, Any]]:
